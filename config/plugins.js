@@ -6,8 +6,8 @@ module.exports = ({ env }) => ({
       domain: env('MAILGUN_DOMAIN'), //Required if you have an account with multiple domains
     },
     settings: {
-      defaultFrom: EMAIL_FROM,
-      defaultReplyTo: EMAIL_REPLY_TO,
+      defaultFrom: env("EMAIL_FROM"),
+      defaultReplyTo: env("EMAIL_REPLY_TO"),
     },
   },
 });
