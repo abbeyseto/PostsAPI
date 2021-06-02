@@ -561,9 +561,6 @@
                 "role": {
                   "type": "string"
                 },
-                "liked_posts": {
-                  "type": "string"
-                },
                 "created_by": {
                   "type": "string"
                 },

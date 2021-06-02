@@ -38,8 +38,7 @@
     },
     "likes": {
       "plugin": "users-permissions",
-      "collection": "user",
-      "via": "liked_posts"
+      "collection": "user"
     }
   }
 }

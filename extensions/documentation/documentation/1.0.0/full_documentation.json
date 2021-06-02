@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "06/02/2021 1:13:30 AM"
+    "x-generation-date": "06/02/2021 2:08:27 PM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -3346,9 +3346,6 @@
               "role": {
                 "type": "string"
               },
-              "liked_posts": {
-                "type": "string"
-              },
               "created_by": {
                 "type": "string"
               },
@@ -3504,9 +3501,6 @@
                 "role": {
                   "type": "string"
                 },
-                "liked_posts": {
-                  "type": "string"
-                },
                 "created_by": {
                   "type": "string"
                 },
@@ -3606,9 +3600,6 @@
                 "type": "boolean"
               },
               "role": {
-                "type": "string"
-              },
-              "liked_posts": {
                 "type": "string"
               },
               "created_by": {
@@ -3865,9 +3856,6 @@
                 "role": {
                   "type": "string"
                 },
-                "liked_posts": {
-                  "type": "string"
-                },
                 "created_by": {
                   "type": "string"
                 },
@@ -3980,50 +3968,6 @@
                 "type": "string"
               }
             }
-          },
-          "liked_posts": {
-            "required": [
-              "id",
-              "text"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "text": {
-                "type": "string"
-              },
-              "author": {
-                "type": "string"
-              },
-              "attachments": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "replies": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "likes": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "published_at": {
-                "type": "string"
-              },
-              "created_by": {
-                "type": "string"
-              },
-              "updated_by": {
-                "type": "string"
-              }
-            }
           }
         }
       },
@@ -4064,9 +4008,6 @@
             "default": false
           },
           "role": {
-            "type": "string"
-          },
-          "liked_posts": {
             "type": "string"
           },
           "created_by": {
