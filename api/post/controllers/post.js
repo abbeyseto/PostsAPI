@@ -20,7 +20,6 @@ const cleanUps = (entity) => {
     "created_at",
     "updated_at",
     "locals",
-    // "published_at",
     "formats",
     "previewUrl",
     "provider_metadata",
@@ -47,7 +46,7 @@ const cleanUps = (entity) => {
 module.exports = {
   /**
    * Create post.
-   *
+   * It accepts contentType/json and multipart/data for file inputs
    * @return {Object}
    */
 
@@ -67,20 +66,19 @@ module.exports = {
 
   /**
    * Retrieve single post.
-   *
+   * Finds a post by the ID of the post
    * @return {Object}
    */
 
   async findOne(ctx) {
     const { id } = ctx.params;
-
     const entity = await strapi.services.post.findOne({ id });
     return cleanUps(sanitizeEntity(entity, { model: strapi.models.post }));
   },
 
   /**
    * Find posts.
-   *
+   * Post are returned in a paginated format based on limit used.
    * @return {Object}
    */
 
@@ -121,6 +119,69 @@ module.exports = {
   },
 
   /**
+   * Update a post.
+   * @return {Object}
+   */
+
+  async update(ctx) {
+    const { id } = ctx.params;
+
+    let entity;
+    if (ctx.is("multipart")) {
+      const { data, files } = parseMultipartData(ctx);
+      entity = await strapi.services.post.update({ id }, data, {
+        files,
+      });
+    } else {
+      entity = await strapi.services.post.update({ id }, ctx.request.body);
+    }
+
+    return cleanUps(sanitizeEntity(entity, { model: strapi.models.post }));
+  },
+
+  /**
+   * Update a post.
+   *
+   * @return {Object}
+   */
+
+  async like(ctx) {
+    const { id, user_id } = ctx.params;
+    const { liked } = ctx.request.body;
+    let entity = await strapi.services.post.findOne({ id });
+    let updatedEntity;
+    if (liked) {
+      const found =
+        entity.likes.length === 0
+          ? false
+          : entity.likes.some((el) => el.id === parseInt(user_id));
+      if (found) {
+        return {
+          message: "You already liked the post",
+        };
+      } else {
+        updatedEntity = await strapi
+          .query("post")
+          .update({ id }, { entity, likes: [...entity.likes, user_id] });
+      }
+      return cleanUps(
+        sanitizeEntity(updatedEntity, { model: strapi.models.post })
+      );
+    }
+    if (!liked) {
+      let filteredEntity = entity.likes.filter(function (obj) {
+        return obj.id !== parseInt(user_id);
+      });
+      entity.likes = filteredEntity;
+      updatedEntity = await strapi.query("post").update({ id }, entity);
+      return cleanUps(
+        sanitizeEntity(updatedEntity, { model: strapi.models.post })
+      );
+    }
+
+    return { message: "An error occured" };
+  },
+  /**
    * Delete post.
    *
    * @return {Object}
@@ -129,20 +190,16 @@ module.exports = {
   async delete(ctx) {
     const { id } = ctx.params;
     const entity = await strapi.query("post").delete({ id });
-    console.log(entity);
-    // const entity2 = await strapi.query("post").delete({ id });
-    // console.log(entity2);
+
     if (entity) {
       try {
         if (entity.attachments) {
           for (let attachment in entity.attachments) {
-            console.log(attachment, "here attach");
             await strapi.plugins.upload.services.upload.remove(attachment);
           }
         }
         if (entity.replies) {
           for (let reply in entity.replies) {
-            console.log(reply, "here repliy");
             await strapi.services.replies.delete(reply.id);
           }
         }
