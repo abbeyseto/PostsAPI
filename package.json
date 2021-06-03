@@ -4,15 +4,16 @@
   "version": "0.1.0",
   "description": "A RESTful API that supports the posts functionality of Facebook ",
   "scripts": {
-    "develop": "strapi develop",
-    "start": "strapi start",
-    "build": "strapi build",
-    "strapi": "strapi"
+    "develop": "strapi develop --no-build",
+    "start": "strapi start --no-build",
+    "build": "strapi build --no-build",
+    "strapi": "strapi",
+    "test": "jest --forceExit --detectOpenHandles"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "knex": "0.21.18",
     "pg": "^8.6.0",
-    "sqlite3": "5.0.0",
     "strapi": "3.6.2",
     "strapi-admin": "3.6.2",
     "strapi-connector-bookshelf": "3.6.2",
@@ -36,5 +37,18 @@
     "node": ">=10.16.0 <=14.x.x",
     "npm": "^6.0.0"
   },
-  "license": "MIT"
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      ".tmp",
+      ".cache"
+    ],
+    "testEnvironment": "node"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^27.0.4",
+    "sqlite3": "^5.0.2",
+    "supertest": "^6.1.3"
+  }
 }
