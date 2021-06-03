@@ -1,0 +1,1856 @@
+{
+  "info": {
+    "_postman_id": "0080bf3a-9f93-4253-8229-9c47a88a57bb",
+    "name": "PostsAPI",
+    "description": "#### This documentation presents to you a RESTful API that mimmicks the posts functionality of Facebook. \n\n## Functional Requirements\nThis API supports the following actions:\n- Registration & login with email & password\n- Authentication with JWT\n- Send an email to a user after registration\n- Password reset\n- Publish a post\n- Fetch a post\n- Delete a post\n- Edit a post\n- Like & undo post like ??\n- Reply to a post\n> Note: *A user is also be able to upload images to posts and replies*",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "POST /auth/local/register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"abbeyseto\",\n  \"email\": \"adenleabbey@hotmail.com\",\n  \"password\": \"Yuhhj!huj987Hj\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{HOST}}/auth/local/register",
+              "host": ["{{HOST}}"],
+              "path": ["auth", "local", "register"]
+            },
+            "description": "#### An Endpoint to register a new user. \n\nAfter registration, the user gets a confirmation email. Please use a valid email when registering.\n\nThe Payload needed to register are:\n- Username\n- Email\n- Password"
+          },
+          "response": [
+            {
+              "name": "POST /auth/local/register",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"abbeyseto\",\n  \"email\": \"adenleabbey@hotmail.com\",\n  \"password\": \"Yuhhj!huj987Hj\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:1337/auth/local/register",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "1337",
+                  "path": ["auth", "local", "register"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1622481619"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "4706ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "198"
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 31 May 2021 17:19:21 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"user\": {\n        \"id\": 6,\n        \"username\": \"abbeyseto\",\n        \"email\": \"adenleabbey@hotmail.com\",\n        \"created_at\": {},\n        \"updated_at\": {},\n        \"message\": \"Registration Sucessful. check adenleabbey@hotmail.com for a confirmation email.\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /auth/email-confirmation?confirmation={TOKEN}",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "postman.setEnvironmentVariable(\"JWT\", jsonData.jwt);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST}}/auth/email-confirmation?confirmation=d6e6f8eb63d23af6682693d4081319e4b1610c23",
+              "host": ["{{HOST}}"],
+              "path": ["auth", "email-confirmation"],
+              "query": [
+                {
+                  "key": "confirmation",
+                  "value": "d6e6f8eb63d23af6682693d4081319e4b1610c23"
+                }
+              ]
+            },
+            "description": "#### Send an email to a user after registration.\n\nAfter registering. You need to confirm your email so we are sure you are the owner of the account. \nA link will be send to your email. \n\nThe link sent to your email has a confirmation token, this token verifies your email.\n\nFor testing purposes, please copy the confirmation token from your email and replace it with the Token variable in the URL to verify your account. \n\nOnce the request is made to verify your token, you will receive a JWT token in the response body.\n\nOn the Postman collection attached to this documentation, The JWT token is automatically stored in the postman's environmental variable and you can continue making authenticated requests."
+          },
+          "response": [
+            {
+              "name": "GET /auth/email-confirmation?confirmation={TOKEN}",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:1337/auth/email-confirmation?confirmation=06c20c59b0d489625c7b3ebd21544bfb56f4f538",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "1337",
+                  "path": ["auth", "email-confirmation"],
+                  "query": [
+                    {
+                      "key": "confirmation",
+                      "value": "06c20c59b0d489625c7b3ebd21544bfb56f4f538"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "90ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "312"
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 31 May 2021 17:20:22 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"jwt\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNjIyNDgxNjIyLCJleHAiOjE2MjUwNzM2MjJ9.0b9rZLF4Y2kIDP47NBhRqSlpMDMFqzsUDv-iTA4Rjvk\",\n    \"user\": {\n        \"id\": 6,\n        \"username\": \"abbeyseto\",\n        \"email\": \"adenleabbey@hotmail.com\",\n        \"created_at\": {},\n        \"updated_at\": {},\n        \"message\": \"Account is confirmed!. Please proceed to login.\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /auth/local",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "postman.setEnvironmentVariable(\"JWT\", jsonData.jwt);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"adenleabbey@hotmail.com\",\n  \"password\": \"Yuhhj!huj987Hj\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{HOST}}/auth/local",
+              "host": ["{{HOST}}"],
+              "path": ["auth", "local"]
+            },
+            "description": "### Authentication with JWT\n\nYou can also Login to your account as a user with this endpoint, which generates a new JWT token for use, in subsequent API calls.\n\nFor testing on postman, this JWT token is automatically stored in the postman's environmental variable and you can continue making authenticated requests."
+          },
+          "response": [
+            {
+              "name": "POST /auth/local",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identifier\": \"adenleabbey@hotmail.com\",\n  \"password\": \"Ologinahtti1!\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:1337/auth/local",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "1337",
+                  "path": ["auth", "local"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1622489741"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "115ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "252"
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 31 May 2021 19:34:40 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"jwt\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNjIyNDg5NjgwLCJleHAiOjE2MjUwODE2ODB9.uW0SvBjBdHakacFbIOxEZgWNXQ3V6RIehtJxGQc8dcs\",\n    \"user\": {\n        \"id\": 7,\n        \"username\": \"abbeyseto\",\n        \"email\": \"adenleabbey@hotmail.com\",\n        \"created_at\": {},\n        \"updated_at\": {}\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /auth/forgot-password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"adenleabbey@hotmail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{HOST}}/auth/forgot-password",
+              "host": ["{{HOST}}"],
+              "path": ["auth", "forgot-password"]
+            },
+            "description": "If a user forgets their password, you could receive their registered email via this endpoint. The email should be supplied as shown below.\n\nOnce the request has been made, An email will be sent to the reqistered email address with a password reset code"
+          },
+          "response": [
+            {
+              "name": "POST /auth/forgot-password",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"adenleabbey@hotmail.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:1337/auth/forgot-password",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "1337",
+                  "path": ["auth", "forgot-password"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1622489860"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "2478ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "11"
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 31 May 2021 19:36:41 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /auth/reset-password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"code\":\"4dff65aeca2e6cdaf137e545235c07bbf5e886a2c6331879105a4627ee778ff7fa2367ebbb0e6c87ad0a4814aefc430340e545075cea7994a8b94428c680f407\",\n    \"password\": \"userNewPassword1\",\n    \"passwordConfirmation\": \"userNewPassword1\"\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{HOST}}/auth/reset-password",
+              "host": ["{{HOST}}"],
+              "path": ["auth", "reset-password"]
+            },
+            "description": "### Password reset\n\nOnce you get he password reset code from your email, please copy it and add it to the payload to be sent to this route, with your new password and a password confirmation field.\n\nFor testing on postman, a JWT token will be re-issued as part of the response which is automatically stored in the postman's environmental variable and you can continue making authenticated requests."
+          },
+          "response": [
+            {
+              "name": "POST /auth/reset-password",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"code\":\"4dff65aeca2e6cdaf137e545235c07bbf5e886a2c6331879105a4627ee778ff7fa2367ebbb0e6c87ad0a4814aefc430340e545075cea7994a8b94428c680f407\",\n    \"password\": \"userNewPassword1\",\n    \"passwordConfirmation\": \"userNewPassword1\"\n  }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:1337/auth/reset-password",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "1337",
+                  "path": ["auth", "reset-password"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "10"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1622491717"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "148ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "471"
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 31 May 2021 20:07:36 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"jwt\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNjIyNDkxNjU2LCJleHAiOjE2MjUwODM2NTZ9.ToPig9y0KgRLJubq1EI5X8P9dZLALn3CgzkaRm6ckro\",\n    \"user\": {\n        \"id\": 7,\n        \"username\": \"abbeyseto\",\n        \"email\": \"adenleabbey@hotmail.com\",\n        \"provider\": \"local\",\n        \"confirmed\": true,\n        \"blocked\": null,\n        \"role\": {\n            \"id\": 1,\n            \"name\": \"Authenticated\",\n            \"description\": \"Default role given to authenticated user.\",\n            \"type\": \"authenticated\"\n        },\n        \"created_at\": \"2021-05-31T19:33:15.454Z\",\n        \"updated_at\": \"2021-05-31T19:36:41.645Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /users/me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST}}/users/me",
+              "host": ["{{HOST}}"],
+              "path": ["users", "me"]
+            },
+            "description": "This is an endpoint to get the details of the currently authenticated user. This is good for building profile pages."
+          },
+          "response": [
+            {
+              "name": "GET /users/me",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{HOST}}/users/me",
+                  "host": ["{{HOST}}"],
+                  "path": ["users", "me"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "19ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "332"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 02 Jun 2021 12:58:03 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 7,\n    \"username\": \"abbeyseto\",\n    \"email\": \"adenleabbey@hotmail.com\",\n    \"provider\": \"local\",\n    \"confirmed\": true,\n    \"blocked\": null,\n    \"role\": {\n        \"id\": 1,\n        \"name\": \"Authenticated\",\n        \"description\": \"Default role given to authenticated user.\",\n        \"type\": \"authenticated\"\n    },\n    \"created_at\": \"2021-05-31T19:33:15.454Z\",\n    \"updated_at\": \"2021-06-02T12:50:40.270Z\",\n    \"liked_posts\": 2\n}"
+            }
+          ]
+        }
+      ],
+      "description": "### Registration & login with email & password"
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "GET /posts",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST}}/posts",
+              "host": ["{{HOST}}"],
+              "path": ["posts"]
+            },
+            "description": "### Fetch a post\n\nThis endpoint gets all the post from all users. by default this returns a maximum of 100 objects from the server. A more efficient way is to use the endpoint in the next section below."
+          },
+          "response": [
+            {
+              "name": "GET /posts",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:1337/posts",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "1337",
+                  "path": ["posts"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "56ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1056"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 02 Jun 2021 01:14:24 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"text\": \"Hello, this is my first post!\",\n        \"author\": {\n            \"id\": 7,\n            \"username\": \"abbeyseto\",\n            \"email\": \"adenleabbey@hotmail.com\",\n            \"liked_posts\": null\n        },\n        \"attachments\": [\n            {\n                \"id\": 1,\n                \"name\": \"Screen Shot 2021-05-30 at 11.23.21 PM.png\",\n                \"mime\": \"image/png\",\n                \"url\": \"/uploads/Screen_Shot_2021_05_30_at_11_23_21_PM_bde928e8a0.png\"\n            },\n            {\n                \"id\": 2,\n                \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                \"mime\": \"image/png\",\n                \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_7ee04f7d1e.png\"\n            }\n        ],\n        \"replies\": [],\n        \"likes\": []\n    },\n    {\n        \"id\": 2,\n        \"text\": \"Hello, this is my second post!\",\n        \"author\": {},\n        \"attachments\": [\n            {\n                \"id\": 3,\n                \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                \"mime\": \"image/png\",\n                \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120.png\"\n            }\n        ],\n        \"replies\": [],\n        \"likes\": []\n    },\n    {\n        \"id\": 3,\n        \"text\": \"Hello, this is my third post!\",\n        \"author\": {\n            \"id\": 7,\n            \"username\": \"abbeyseto\",\n            \"email\": \"adenleabbey@hotmail.com\",\n            \"liked_posts\": null\n        },\n        \"attachments\": [\n            {\n                \"id\": 4,\n                \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                \"mime\": \"image/png\",\n                \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_2aaff141c3.png\"\n            }\n        ],\n        \"replies\": [],\n        \"likes\": []\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "GET /posts?_limit=5",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST}}/posts?_limit=10",
+              "host": ["{{HOST}}"],
+              "path": ["posts"],
+              "query": [
+                {
+                  "key": "_limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "This is a more efficient version of the /post end route. \n\nBy setting a limit, it improves seen and the results are paginated with a response that contains a link to fetch the next set of results or go back to the previous set of results.\n\nThe limit you set will be maintained all through the paginated navigations."
+          },
+          "response": [
+            {
+              "name": "GET /posts?_limit=5",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{HOST}}/posts?_limit=10",
+                  "host": ["{{HOST}}"],
+                  "path": ["posts"],
+                  "query": [
+                    {
+                      "key": "_limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "97ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "3868"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 02 Jun 2021 09:50:45 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"count\": 20,\n    \"next\": \"http://localhost:1337/posts?_start=10&_limit=10\",\n    \"previous\": null,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"text\": \"Hello, this is my first post!\",\n            \"author\": {\n                \"id\": 7,\n                \"username\": \"abbeyseto\",\n                \"email\": \"adenleabbey@hotmail.com\",\n                \"liked_posts\": null\n            },\n            \"published_at\": \"2021-06-02T00:41:25.634Z\",\n            \"attachments\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"Screen Shot 2021-05-30 at 11.23.21 PM.png\",\n                    \"mime\": \"image/png\",\n                    \"url\": \"/uploads/Screen_Shot_2021_05_30_at_11_23_21_PM_bde928e8a0.png\"\n                },\n                {\n                    \"id\": 2,\n                    \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"mime\": \"image/png\",\n                    \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_7ee04f7d1e.png\"\n                }\n            ],\n            \"replies\": [],\n            \"likes\": []\n        },\n        {\n            \"id\": 2,\n            \"text\": \"Hello, this is my second post!\",\n            \"author\": {},\n            \"published_at\": \"2021-06-02T01:01:06.737Z\",\n            \"attachments\": [\n                {\n                    \"id\": 3,\n                    \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"mime\": \"image/png\",\n                    \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120.png\"\n                }\n            ],\n            \"replies\": [],\n            \"likes\": []\n        },\n        {\n            \"id\": 3,\n            \"text\": \"Hello, this is my third post!\",\n            \"author\": {\n                \"id\": 7,\n                \"username\": \"abbeyseto\",\n                \"email\": \"adenleabbey@hotmail.com\",\n                \"liked_posts\": null\n            },\n            \"published_at\": \"2021-06-02T01:13:04.405Z\",\n            \"attachments\": [\n                {\n                    \"id\": 4,\n                    \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"mime\": \"image/png\",\n                    \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_2aaff141c3.png\"\n                }\n            ],\n            \"replies\": [],\n            \"likes\": []\n        },\n        {\n            \"id\": 4,\n            \"text\": \"Hello, this is another post!\",\n            \"author\": {\n                \"id\": 7,\n                \"username\": \"abbeyseto\",\n                \"email\": \"adenleabbey@hotmail.com\",\n                \"liked_posts\": null\n            },\n            \"published_at\": \"2021-06-02T08:59:36.098Z\",\n            \"attachments\": [\n                {\n                    \"id\": 5,\n                    \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"mime\": \"image/png\",\n                    \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_885b149880.png\"\n                }\n            ],\n            \"replies\": [],\n            \"likes\": []\n        },\n        {\n            \"id\": 5,\n            \"text\": \"Hello, this is another post!\",\n            \"author\": {\n                \"id\": 7,\n                \"username\": \"abbeyseto\",\n                \"email\": \"adenleabbey@hotmail.com\",\n                \"liked_posts\": null\n            },\n            \"published_at\": \"2021-06-02T08:59:38.615Z\",\n            \"attachments\": [\n                {\n                    \"id\": 6,\n                    \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"mime\": \"image/png\",\n                    \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_3853e790c5.png\"\n                }\n            ],\n            \"replies\": [],\n            \"likes\": []\n        },\n        {\n            \"id\": 6,\n            \"text\": \"Hello, this is another post!\",\n            \"author\": {\n                \"id\": 7,\n                \"username\": \"abbeyseto\",\n                \"email\": \"adenleabbey@hotmail.com\",\n                \"liked_posts\": null\n            },\n            \"published_at\": \"2021-06-02T08:59:40.533Z\",\n            \"attachments\": [\n                {\n                    \"id\": 7,\n                    \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"mime\": \"image/png\",\n                    \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_d344bdb3a9.png\"\n                }\n            ],\n            \"replies\": [],\n            \"likes\": []\n        },\n        {\n            \"id\": 7,\n            \"text\": \"Hello, this is another post!\",\n            \"author\": {\n                \"id\": 7,\n                \"username\": \"abbeyseto\",\n                \"email\": \"adenleabbey@hotmail.com\",\n                \"liked_posts\": null\n            },\n            \"published_at\": \"2021-06-02T08:59:42.240Z\",\n            \"attachments\": [\n                {\n                    \"id\": 8,\n                    \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"mime\": \"image/png\",\n                    \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_08ed37c0d1.png\"\n                }\n            ],\n            \"replies\": [],\n            \"likes\": []\n        },\n        {\n            \"id\": 8,\n            \"text\": \"Hello, this is another post!\",\n            \"author\": {\n                \"id\": 7,\n                \"username\": \"abbeyseto\",\n                \"email\": \"adenleabbey@hotmail.com\",\n                \"liked_posts\": null\n            },\n            \"published_at\": \"2021-06-02T08:59:43.916Z\",\n            \"attachments\": [\n                {\n                    \"id\": 9,\n                    \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"mime\": \"image/png\",\n                    \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_99eb8e1c20.png\"\n                }\n            ],\n            \"replies\": [],\n            \"likes\": []\n        },\n        {\n            \"id\": 9,\n            \"text\": \"Hello, this is another post!\",\n            \"author\": {\n                \"id\": 7,\n                \"username\": \"abbeyseto\",\n                \"email\": \"adenleabbey@hotmail.com\",\n                \"liked_posts\": null\n            },\n            \"published_at\": \"2021-06-02T08:59:45.666Z\",\n            \"attachments\": [\n                {\n                    \"id\": 10,\n                    \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"mime\": \"image/png\",\n                    \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_8375fdb0f4.png\"\n                }\n            ],\n            \"replies\": [],\n            \"likes\": []\n        },\n        {\n            \"id\": 10,\n            \"text\": \"Hello, this is another post!\",\n            \"author\": {\n                \"id\": 7,\n                \"username\": \"abbeyseto\",\n                \"email\": \"adenleabbey@hotmail.com\",\n                \"liked_posts\": null\n            },\n            \"published_at\": \"2021-06-02T08:59:47.300Z\",\n            \"attachments\": [\n                {\n                    \"id\": 11,\n                    \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"mime\": \"image/png\",\n                    \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_edbf5ab292.png\"\n                }\n            ],\n            \"replies\": [],\n            \"likes\": []\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /posts/{id}",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST}}/posts/2",
+              "host": ["{{HOST}}"],
+              "path": ["posts", "2"]
+            },
+            "description": "This is an endpoint to get an individual single post"
+          },
+          "response": [
+            {
+              "name": "GET /posts/{id}",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{HOST}}/posts/2",
+                  "host": ["{{HOST}}"],
+                  "path": ["posts", "2"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "81ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1839"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 02 Jun 2021 01:35:55 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"text\": \"Hello, this is my second post!\",\n    \"author\": {},\n    \"published_at\": \"2021-06-02T01:01:06.737Z\",\n    \"created_at\": \"2021-06-02T01:01:06.742Z\",\n    \"updated_at\": \"2021-06-02T01:01:06.752Z\",\n    \"attachments\": [\n        {\n            \"id\": 3,\n            \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n            \"alternativeText\": null,\n            \"caption\": null,\n            \"width\": 3360,\n            \"height\": 2100,\n            \"formats\": {\n                \"large\": {\n                    \"ext\": \".png\",\n                    \"url\": \"/uploads/large_Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120.png\",\n                    \"hash\": \"large_Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120\",\n                    \"mime\": \"image/png\",\n                    \"name\": \"large_Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"path\": null,\n                    \"size\": 251.03,\n                    \"width\": 1000,\n                    \"height\": 625\n                },\n                \"small\": {\n                    \"ext\": \".png\",\n                    \"url\": \"/uploads/small_Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120.png\",\n                    \"hash\": \"small_Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120\",\n                    \"mime\": \"image/png\",\n                    \"name\": \"small_Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"path\": null,\n                    \"size\": 84.62,\n                    \"width\": 500,\n                    \"height\": 312\n                },\n                \"medium\": {\n                    \"ext\": \".png\",\n                    \"url\": \"/uploads/medium_Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120.png\",\n                    \"hash\": \"medium_Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120\",\n                    \"mime\": \"image/png\",\n                    \"name\": \"medium_Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"path\": null,\n                    \"size\": 159.5,\n                    \"width\": 750,\n                    \"height\": 469\n                },\n                \"thumbnail\": {\n                    \"ext\": \".png\",\n                    \"url\": \"/uploads/thumbnail_Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120.png\",\n                    \"hash\": \"thumbnail_Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120\",\n                    \"mime\": \"image/png\",\n                    \"name\": \"thumbnail_Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n                    \"path\": null,\n                    \"size\": 28.95,\n                    \"width\": 245,\n                    \"height\": 153\n                }\n            },\n            \"hash\": \"Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120\",\n            \"ext\": \".png\",\n            \"mime\": \"image/png\",\n            \"size\": 1316.97,\n            \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_94718b1120.png\",\n            \"previewUrl\": null,\n            \"provider\": \"local\",\n            \"provider_metadata\": null,\n            \"created_at\": \"2021-06-02T01:01:07.787Z\",\n            \"updated_at\": \"2021-06-02T01:01:07.787Z\"\n        }\n    ],\n    \"replies\": [],\n    \"likes\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /posts",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "files.attachments",
+                  "type": "file",
+                  "src": "/Users/abiodun/Documents/Screen Shot 2021-06-01 at 7.44.39 PM.png"
+                },
+                {
+                  "key": "data",
+                  "value": "{\n\"author\":7,\n\"text\":\"Hello, this is my third post!\"\n}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{HOST}}/posts",
+              "host": ["{{HOST}}"],
+              "path": ["posts"]
+            },
+            "description": "### Publish a post\n\nYou can create a new post using this endpoint.\n\nThis endpoint accepts **multipart/form-data** if you are uploading an image with the post or **contentType/json** if you are only creating a text based post.\n\n>Note: JSON only payloads should be sent with a key of **data**, and the images should be sent with a key of **files**."
+          },
+          "response": [
+            {
+              "name": "POST /posts",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "files.attachments",
+                      "type": "file",
+                      "src": "/Users/abiodun/Documents/Screen Shot 2021-06-01 at 7.44.39 PM.png"
+                    },
+                    {
+                      "key": "data",
+                      "value": "{\n\"author\":7,\n\"text\":\"Hello, this is my third post!\"\n}",
+                      "type": "text"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:1337/posts",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "1337",
+                  "path": ["posts"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "1135ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "328"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 02 Jun 2021 01:13:05 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 3,\n    \"text\": \"Hello, this is my third post!\",\n    \"author\": {\n        \"id\": 7,\n        \"username\": \"abbeyseto\",\n        \"email\": \"adenleabbey@hotmail.com\",\n        \"liked_posts\": null\n    },\n    \"attachments\": [\n        {\n            \"id\": 4,\n            \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n            \"mime\": \"image/png\",\n            \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_2aaff141c3.png\"\n        }\n    ],\n    \"replies\": [],\n    \"likes\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "PUT /posts/{id}",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "data",
+                  "value": "{\n    \"text\":\"This is my First post\"\n}",
+                  "type": "text"
+                },
+                {
+                  "key": "files.attachments",
+                  "type": "file",
+                  "src": "/Users/abiodun/Documents/Screen Shot 2021-05-03 at 2.22.38 PM.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{HOST}}/posts/2",
+              "host": ["{{HOST}}"],
+              "path": ["posts", "2"]
+            },
+            "description": "### Edit a post\n\nYou can update a post using this endpoint.\n\nThis endpoint accepts multipart/form-data if you are updating an image with the post or contentType/json if you are only updating a text based post.\n\nNote: JSON only payloads should be sent with a key of data, and the images should be sent with a key of files."
+          },
+          "response": [
+            {
+              "name": "PUT /posts/{id}",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "data",
+                      "value": "{\n    \"text\":\"This is my First post\"\n}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "files.attachments",
+                      "type": "file",
+                      "src": "/Users/abiodun/Documents/Screen Shot 2021-05-03 at 2.22.38 PM.png"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{HOST}}/posts/2",
+                  "host": ["{{HOST}}"],
+                  "path": ["posts", "2"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "751ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "282"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 02 Jun 2021 17:39:25 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"text\": \"This is my First post\",\n    \"author\": null,\n    \"published_at\": \"2021-06-02T17:01:47.519Z\",\n    \"attachments\": [\n        {\n            \"id\": 2,\n            \"name\": \"Screen Shot 2021-05-03 at 2.22.38 PM.png\",\n            \"mime\": \"image/png\",\n            \"url\": \"/uploads/Screen_Shot_2021_05_03_at_2_22_38_PM_3c08907912.png\"\n        }\n    ],\n    \"replies\": [],\n    \"likes\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "DELETE /posts/{id}",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{HOST}}/posts/21",
+              "host": ["{{HOST}}"],
+              "path": ["posts", "21"]
+            },
+            "description": "### Delete a post\n\nYou can delete a post using this endpoint.\n\nThis endpoint accepts the post ID.\n\n>**Cascade Delete Note**: when a post is deleted, replies to such post are also deleted with all attachments that belong to it."
+          },
+          "response": [
+            {
+              "name": "DELETE /posts/{id}",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{HOST}}/posts/21",
+                  "host": ["{{HOST}}"],
+                  "path": ["posts", "21"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "278ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "71"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 02 Jun 2021 13:53:06 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Post and all its attachement and replies has been deleted\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "PUT /posts/{id}/likes{user_id}",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"liked\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{HOST}}/posts/2/like/1",
+              "host": ["{{HOST}}"],
+              "path": ["posts", "2", "like", "1"]
+            },
+            "description": "### Like & undo post like ??\n\nThis endpoint allows you like a post.\n\nIt accepts the post's id and the id of the user liking the post and a json boolean payload\n\n> **NOTE:**This endpoint does **not** allow you like a single post multiple times."
+          },
+          "response": [
+            {
+              "name": "PUT /posts/{id}/likes{user_id}",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"liked\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{HOST}}/posts/2/like/1",
+                  "host": ["{{HOST}}"],
+                  "path": ["posts", "2", "like", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "115ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "347"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 02 Jun 2021 22:19:43 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"text\": \"This is my First post\",\n    \"author\": null,\n    \"published_at\": \"2021-06-02T17:01:47.519Z\",\n    \"attachments\": [\n        {\n            \"id\": 2,\n            \"name\": \"Screen Shot 2021-05-03 at 2.22.38 PM.png\",\n            \"mime\": \"image/png\",\n            \"url\": \"/uploads/Screen_Shot_2021_05_03_at_2_22_38_PM_3c08907912.png\"\n        }\n    ],\n    \"replies\": [],\n    \"likes\": [\n        {\n            \"id\": 1,\n            \"username\": \"abbeyseto\",\n            \"email\": \"adenleabbey@hotmail.com\"\n        }\n    ]\n}"
+            }
+          ]
+        }
+      ],
+      "description": "This is a resource path for getting posts. A user needs to be authenticated first before being able to fetch resources from this route. \n\nFor unauthenticated users, a forbidden error is sent as a response"
+    },
+    {
+      "name": "Replies",
+      "item": [
+        {
+          "name": "GET /replies/?post_id=1",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST}}/replies?post_id=1",
+              "host": ["{{HOST}}"],
+              "path": ["replies"],
+              "query": [
+                {
+                  "key": "post_id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "This endpoint fetches all the replies of a post by passing the post id"
+          },
+          "response": [
+            {
+              "name": "GET /replies/post/{id}",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{HOST}}/replies?post_id=1",
+                  "host": ["{{HOST}}"],
+                  "path": ["replies"],
+                  "query": [
+                    {
+                      "key": "post_id",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "65ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "49"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Jun 2021 00:10:55 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"count\": 0,\n    \"next\": null,\n    \"previous\": null,\n    \"data\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /replies/{id}",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{HOST}}/replies/2",
+              "host": ["{{HOST}}"],
+              "path": ["replies", "2"]
+            },
+            "description": "This endpoint gets a single reply to a post"
+          },
+          "response": [
+            {
+              "name": "GET /replies/{id}",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{HOST}}/replies/2",
+                  "host": ["{{HOST}}"],
+                  "path": ["replies", "2"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "81ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "436"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Jun 2021 00:42:01 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"text\": \"This is my 1st reply\",\n    \"user\": {\n        \"id\": 1,\n        \"username\": \"abbeyseto\",\n        \"email\": \"adenleabbey@hotmail.com\"\n    },\n    \"post_id\": {\n        \"id\": 1,\n        \"text\": \"This is my First post\",\n        \"author\": 1,\n        \"published_at\": \"2021-06-02T17:00:32.183Z\",\n        \"attachments\": []\n    },\n    \"published_at\": \"2021-06-03T00:13:55.446Z\",\n    \"attachments\": [\n        {\n            \"id\": 7,\n            \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n            \"mime\": \"image/png\",\n            \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_65f4cc9088.png\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /replies",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "files.attachments",
+                  "type": "file",
+                  "src": "/Users/abiodun/Documents/Screen Shot 2021-06-01 at 7.44.39 PM.png"
+                },
+                {
+                  "key": "data",
+                  "value": "{\n\"user\":1,\n\"text\":\"Hello, this is my third post!\",\n\"post_id\":1\n}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{HOST}}/replies",
+              "host": ["{{HOST}}"],
+              "path": ["replies"]
+            },
+            "description": "This endpoint accepts multipart/form-data if you are uploading an image with the replies to a post or contentType/json if you are only creating a text based replies.\n\nThe *user* field in the JSON payload is the id of the user posting the reply to a post.\n\n> Note: JSON only payloads should be sent with a key of data, and the images should be sent with a key of files."
+          },
+          "response": [
+            {
+              "name": "POST /replies",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "files.attachments",
+                      "type": "file",
+                      "src": "/Users/abiodun/Documents/Screen Shot 2021-06-01 at 7.44.39 PM.png"
+                    },
+                    {
+                      "key": "data",
+                      "value": "{\n\"user\":1,\n\"text\":\"Hello, this is my third post!\",\n\"post_id\":1\n}",
+                      "type": "text"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{HOST}}/replies",
+                  "host": ["{{HOST}}"],
+                  "path": ["replies"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "1122ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "384"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Jun 2021 00:13:56 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"text\": \"Hello, this is my third post!\",\n    \"user\": null,\n    \"post_id\": {\n        \"id\": 1,\n        \"text\": \"This is my First post\",\n        \"author\": 1,\n        \"published_at\": \"2021-06-02T17:00:32.183Z\",\n        \"attachments\": []\n    },\n    \"published_at\": \"2021-06-03T00:13:55.446Z\",\n    \"attachments\": [\n        {\n            \"id\": 7,\n            \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n            \"mime\": \"image/png\",\n            \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_65f4cc9088.png\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "PUT /replies/{id}",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "data",
+                  "value": "{\n    \"text\":\"This is my 1st reply\",\n\"user\":1\n}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{HOST}}/replies/2",
+              "host": ["{{HOST}}"],
+              "path": ["replies", "2"]
+            },
+            "description": "This endpoint accepts multipart/form-data if you are updating an image with the replies to a post or contentType/json if you are only creating a text based replies.\n\n> Note: JSON only payloads should be sent with a key of data, and the images should be sent with a key of files."
+          },
+          "response": [
+            {
+              "name": "PUT /replies/{id}",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "data",
+                      "value": "{\n    \"text\":\"This is my 1st reply\",\n\"user\":1\n}",
+                      "type": "text"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{HOST}}/replies/2",
+                  "host": ["{{HOST}}"],
+                  "path": ["replies", "2"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "116ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "436"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Jun 2021 00:15:33 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"text\": \"This is my 1st reply\",\n    \"user\": {\n        \"id\": 1,\n        \"username\": \"abbeyseto\",\n        \"email\": \"adenleabbey@hotmail.com\"\n    },\n    \"post_id\": {\n        \"id\": 1,\n        \"text\": \"This is my First post\",\n        \"author\": 1,\n        \"published_at\": \"2021-06-02T17:00:32.183Z\",\n        \"attachments\": []\n    },\n    \"published_at\": \"2021-06-03T00:13:55.446Z\",\n    \"attachments\": [\n        {\n            \"id\": 7,\n            \"name\": \"Screen Shot 2021-06-01 at 7.44.39 PM.png\",\n            \"mime\": \"image/png\",\n            \"url\": \"/uploads/Screen_Shot_2021_06_01_at_7_44_39_PM_65f4cc9088.png\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "DELETE /replies/{id}",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{HOST}}/replies/2",
+              "host": ["{{HOST}}"],
+              "path": ["replies", "2"]
+            },
+            "description": "This endpoint deletes a single reply"
+          },
+          "response": [
+            {
+              "name": "DELETE /replies/{id}",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{HOST}}/replies/2",
+                  "host": ["{{HOST}}"],
+                  "path": ["replies", "2"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Strapi <strapi.io>"
+                },
+                {
+                  "key": "X-Response-Time",
+                  "value": "252ms"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "74"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Jun 2021 00:44:47 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"replies and all its attachement and replies has been deleted\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "This is the resource for sending replies to a post.\n\nUsers are able to send replies to a post mostly using the post id"
+    }
+  ]
+}
