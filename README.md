@@ -92,7 +92,7 @@ This command will do a couple of things
 ## **Endpoint Testing**
 
 To test the endpoints, i have added a postman collection to the root folder of this repository. 
-
+The file name is PostsAPI.postman_collection.json
 Import it into a postman application and use it to test the application.
 
 Environmental variables have been added to the collect for easy testing.
