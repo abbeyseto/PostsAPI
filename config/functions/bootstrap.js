@@ -7,10 +7,7 @@
  * This gives you an opportunity to set up your data model,
  * run jobs, or perform some special logic.
  */
-const crypto = require("crypto");
-const _ = require("lodash");
-const sendSetup = require("./setUpEmail");
-const { sanitizeEntity } = require("strapi-utils");
+const setup = require("../../extensions/email/setUpEmail");
 const setUsersRolePermission = require("./permissionSettings");
 
 module.exports = () => {
@@ -19,5 +16,5 @@ module.exports = () => {
    * based on the route you want users to have access to
    */
   setUsersRolePermission();
-  sendSetup();
+  setup();
 };
