@@ -8,7 +8,7 @@
     "start": "strapi start --no-build",
     "build": "strapi build --no-build",
     "strapi": "strapi",
-    "test": "jest --forceExit --detectOpenHandles"
+    "tests": "jest --forceExit --detectOpenHandles"
   },
   "dependencies": {
     "express": "^4.17.1",

@@ -1,136 +1,112 @@
-# Email Status Microservice
+# **PostsAPI BACKEND**
 
-This project implements a scenario where an email goes out via Mailgun (mailgun.com). Once it’s out, Mailgun sends various events back (open, clicked, etc).
+This repository presents to you a RESTful API that mimmicks the posts functionality of a social media platform.
+### **Features**
+This API supports the following functionalities:
 
-When the email is sent out via Mailgun, these events is sent via webhooks, hitting an API Gateway and then that information is proxied to a Lambda. The Lambda does two things: save a copy of the raw webhook a database and publish a transformed version into AWS SNS.
+- Registration & login with email & password
+- Authentication with JWT
+- Send an email to a user after registration
+- Password reset
+- Publish a post
+- Fetch a post
+- Delete a post
+- Edit a post
+- Like & undo post like ??
+- Reply to a post
 
-This service was implemented using the [Serverless framework](https://www.serverless.com/).
+> Note: A user is also be able to upload images to posts and replies
 
-For additional knowledge using this framework with AWS, please refer to the [documentation](https://www.serverless.com/framework/docs/providers/aws/).
+## **Documentation**
 
-## Installation
+Documentation for this endpoints can be viewed here:
+
+https://documenter.getpostman.com/view/4874547/TzY3DGLk
+
+This documentation shows how this project can be implenmented on the frontend with examples codes.
+
+## **Installation**
 
 Clone this repository on your local machine by usig the `git clone` command
 
+```
+git clone https://github.com/abbeyseto/PostsAPI.git
+```
 Depending on your preferred package manager, follow the instructions below to deploy your project.
 
 > **Requirements**: NodeJS `lts/fermium (v.14.15.0)`. If you're using [nvm](https://github.com/nvm-sh/nvm), run `nvm use` to ensure you're using the same Node version in local and in your lambda's runtime.
 
 ### Dependencies
+Dependencies have been configured in the pakage.json file at the root of the project's folder.
 
-- Run `npm i` to install the project dependencies
+Run `npm i` to install the project dependencies
 
-### Configurations
+### **Configurations**
+This project uses the following tool and can be configured:
+- PostgreSQL Database
+- Express
+- Strapi Headless CMS
+- Mailgun
 
-| :warning: WARNING                                                                           |
-| :------------------------------------------------------------------------------------------ |
-| It is important to change configuration settings before building, packaging and deployment. |
+The only ones you will need to configure are the **PostgreSQL database**  and **Mailgun** Email provider service
 
-**This project by default deploys to `us-east-1` to change it, add --region [REGION_NAME] when building and deploying**
 
-| :info: INFO                                                                              |
-| :--------------------------------------------------------------------------------------- |
-| The SNS service is deployed to `us-east-1`, change to this region to see cloudwatch logs |
+### **Keys and Credentials**
+After setting up your postgreSQL database and Mailgun, you will need to store the credentials to a place where this apllication can access it.
 
-Go to the `src/functions/db.ts` file to change Mongodb database configuration parameters to deploy with your own database
+A quick way is to create a `.env` file at the root directory of the projects folder and add the following keys to the file
 
-#### Storing Secrets and Keys
+```
+MAILGUN_API_KEY=XXXXXXXXXXX 
+MAILGUN_DOMAIN=XXXXXXXXXXX  
+EMAIL_FROM=XXXXXXXXXXX
+EMAIL_REPLY_TO=XXXXXXXXXXX
+DATABASE_HOST=XXXXXXXXXXX
+DATABASE_PORT=XXXXXXXXXXX
+DATABASE_NAME=XXXXXXXXXXX
+DATABASE_USERNAME=XXXXXXXXXXX
+DATABASE_PASSWORD=XXXXXXXXXXX
+DATABASE_SSL= false
+```
 
-For security, this guide will help to store secrets using Parameter Store provided by Systems Manager in AWS.
+> Note MAILGUN_DOMAIN => Domain in your mailgun accout that routes emails in the format mailgun.domain.com.
 
-These keys need to be stored on AWS as the Lambda functions will need them to run.
+> EMAIL_FROM is your mailgun domain email
 
-To store a key, make sure you are authenticated via the AWS CLI and run the following command:
+> EMAIL_REPLY_TO is the email you want users to reply to which could be thesame as your mailgun domain email
+
+
+## Local Deployment
+
+To deploy the project locally, you will run the following command on your terminal
 
 ```bash
-aws ssm put-parameter --name NAME_OF_SECRET \
-                      --value 'my super safe secret' \
-                      --type SecureString
+npm run develop
 ```
 
-Below are the keys needed for to run these lambda functions:
+This command will do a couple of things
+- Start bootstrap scripts that configures roles i.e Authenticated and Public
+- Set permissions for the autenticated users on each of the required endpoints
 
-AccountId="xxxxxxxxxxx" (This is your AWS account ID)
 
-MAILGUN_API_KEY="XXXXXXXXXXXXXXX" (API key from Mailgun)
+## **Endpoint Testing**
 
-MAILGUN_DOMAIN="mailgun.XXXXXXXX.com" (Domain on mailgun)
+To test the endpoints, i have added a postman collection to the root folder of this repository. 
 
-## Deployment
+Import it into a postman application and use it to test the application.
 
-- Connect to AWS from AWS CLI from your teminal by using the **aws configure** command.
-- Run `npx sls package --package dist ` to build from typescript to javascript files and package it in to the dist folder with cloudformation configuration files
-- Run `npx sls deploy --package dist` to deploy this stack to AWS
+Environmental variables have been added to the collect for easy testing.
 
-> NOTE:: This project by default deploys to `us-east-1` to build and deploy to othe regions, add --region [REGION_NAME] flag when building and deploying
+For example, when you call an endpoint and it returns a JWT token, this token is automatically stored in the environmental variables and you can continue to make authenticated request.
 
-> **Alternatively**: You can also install the serverless package globally by runing `npm install -g serverless`
-> and then, run the `npm run build-deploy` command to both build and deploy to AWS
+## Integration and unit Tests
 
-## Testing the service
-
-### Remotely
-
-Two API endpoint will be generated after deployment, found after running `npx sls deploy` command. Output should be in the format
-
-- https://ApiEndpoint/dev/sendEmail - This is the endpoint for sending email.
-
-This accepts a POST request and a payload in the following format:
-
-```bash
-{
-    "to": ["abc@xyz.com"],
-    "from": "you@your-domain.com", # Sender's email from your mailgun account
-    "subject": "Email Service"
-    "html":"This is a test email from email service" #Body of the email
-}
-```
-
-> Content-Type: application/json
-
-This can be tested from postman
-
-- https://ApiEndpoint/dev/webhook - This webhook should be configured on your mailgun account to send events (e.g opened, delivered, click e.t.c)
-
-> :warning: As is, this template, once deployed, opens a **public** endpoint within your AWS account resources. Anybody with the URL can actively execute the API Gateway endpoint and the corresponding lambda.
-
-## Project structure
-
-The project code base is mainly located within the `src` folder. This folder is divided in:
-
-- `functions` - containing code base and configuration for the lambda functions
-- `libs` - containing shared code base between lambdas
+Test cases has been written to test a few of these endpoints. To run the test cases, simple go to the root of the folder, open your terminal and run:
 
 ```
-.
-├── src
-│   ├── functions               # Lambda configuration and source code folder
-│   │   ├── sendEmail
-│   │   │   ├── handler.ts      # `sendEmail` lambda source code
-│   │   │   ├── index.ts        # `sendEmail` lambda Serverless configuration
-│   │   │   ├── mock.json       # `sendEmail` lambda input parameter, if any, for local invocation
-│   │   │   └── schema.ts       # `sendEmail` lambda input event JSON-Schema
-│   │   ├── webhook
-│   │   │   ├── handler.ts      # `webhook` lambda source code
-│   │   │   ├── index.ts        # `webhook` lambda Serverless configuration
-│   │   │   ├── mock.json       # `webhook` lambda input parameter, if any, for local invocation
-│   │   │   └── schema.ts       # `webhook` lambda input event JSON-Schema
-│   │   │
-│   │   ├── keyStoreModule.ts   # This module connects to stored secrets and keys using Parameter Store provided by Systems Manager in AWS.
-│   │   ├── db.ts               # mongodb database connection abstactions.
-│   │   └── index.ts            # Import/export of all lambda configurations
-│   │
-│   └── libs                    # Lambda shared code
-│       └── apiGateway.ts       # API Gateway specific helpers
-│       └── handlerResolver.ts  # Sharable library for resolving lambda handlers
-│       └── lambda.ts           # Lambda middleware
-│
-├── package.json
-├── serverless.ts               # Serverless service file
-├── tsconfig.json               # Typescript compiler configuration
-├── tsconfig.paths.json         # Typescript paths
-└── webpack.config.js           # Webpack configuration
+npm run tests
 ```
+This test suites creates a separate database file using sqlite3 and terminates the database anfter the tests are done.
 
 ## Author
 
