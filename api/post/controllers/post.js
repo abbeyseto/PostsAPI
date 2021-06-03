@@ -1,13 +1,7 @@
 "use strict";
 
-/**
- * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
- * to customize this controller
- */
-
 const { parseMultipartData, sanitizeEntity } = require("strapi-utils");
 const _ = require("lodash");
-
 const cleanUps = (entity) => {
   const sanitizedValue = _.omit(entity, [
     "confirmed",
@@ -49,7 +43,6 @@ module.exports = {
    * It accepts contentType/json and multipart/data for file inputs
    * @return {Object}
    */
-
   async create(ctx) {
     let entity;
     if (ctx.is("multipart")) {
@@ -69,7 +62,6 @@ module.exports = {
    * Finds a post by the ID of the post
    * @return {Object}
    */
-
   async findOne(ctx) {
     const { id } = ctx.params;
     const entity = await strapi.services.post.findOne({ id });
@@ -81,15 +73,15 @@ module.exports = {
    * Post are returned in a paginated format based on limit used.
    * @return {Object}
    */
-
   async find(ctx) {
     let entities;
     let response = {};
     let { _start, _limit } = ctx.query;
     let limit = parseInt(_limit) || 5;
     let start = parseInt(_start) || 0;
-
+    
     if (ctx.query._q) {
+      console.log("Query called");
       entities = await strapi.services.post.search(ctx.query);
     } else {
       entities = await strapi.services.post.find({
@@ -104,7 +96,6 @@ module.exports = {
     const total = await strapi.query("post").count();
     const nextStart = start + limit;
     const prevStart = start - limit;
-    console.log(nextStart);
     response["count"] = total;
     response["next"] =
       total <= nextStart
@@ -150,15 +141,15 @@ module.exports = {
     const { liked } = ctx.request.body;
     let entity = await strapi.services.post.findOne({ id });
     let updatedEntity;
+
+    //If Liked value is @true
     if (liked) {
       const found =
         entity.likes.length === 0
           ? false
           : entity.likes.some((el) => el.id === parseInt(user_id));
       if (found) {
-        return {
-          message: "You already liked the post",
-        };
+        return { message: "You already liked the post" };
       } else {
         updatedEntity = await strapi
           .query("post")
@@ -168,6 +159,8 @@ module.exports = {
         sanitizeEntity(updatedEntity, { model: strapi.models.post })
       );
     }
+
+    // If Liked value is @false
     if (!liked) {
       let filteredEntity = entity.likes.filter(function (obj) {
         return obj.id !== parseInt(user_id);
@@ -178,15 +171,13 @@ module.exports = {
         sanitizeEntity(updatedEntity, { model: strapi.models.post })
       );
     }
-
     return { message: "An error occured" };
   },
+
   /**
    * Delete post.
-   *
    * @return {Object}
    */
-
   async delete(ctx) {
     const { id } = ctx.params;
     const entity = await strapi.query("post").delete({ id });
@@ -207,7 +198,6 @@ module.exports = {
         console.log(error);
       }
     }
-
     return {
       message: "Post and all its attachement and replies has been deleted",
     };
