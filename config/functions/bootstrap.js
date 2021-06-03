@@ -12,8 +12,9 @@ const setUsersRolePermission = require("./permissionSettings");
 
 module.exports = () => {
   /**
-   * Calling the function below to programmatically set users permission
-   * based on the route you want users to have access to
+   * Calling the functions below to programmatically set users permission
+   * based on the route you want users to have access to, if this code is commented out
+   * permissions will not be set.
    */
   setUsersRolePermission();
   setup();
