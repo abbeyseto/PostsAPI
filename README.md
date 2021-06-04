@@ -108,7 +108,11 @@ The file name is `PostsAPI.postman_collection.json`
 
 Import it into a postman application and use it to test the application.
 
-Environmental variables have been added to the collect for easy testing.
+You also need to import the environmental variables and set it as your current active environment. 
+
+The file name  is `PostsAPI.postman_environment.json`
+
+Environmental variables will added to the collect for easy testing.
 
 For example, when you call an endpoint and it returns a JWT token, this token is automatically stored in the environmental variables and you can continue to make authenticated request.
 

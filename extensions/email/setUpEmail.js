@@ -1,6 +1,15 @@
 const os = require("os");
+var express = require("express");
+var Mailgun = require("mailgun-js");
+var app = express();
+
+const { getMailgunAPIKey, getMailgunDomain } = require("../email/keyStoreModule.ts");
+
 
 const sendSetup = async () => {
+
+  var mailgun = new Mailgun({ apiKey: getMailgunAPIKey, domain: getMailgunDomain });
+
   let entity = {};
 
   entity["platform"] = os.platform();
@@ -9,30 +18,33 @@ const sendSetup = async () => {
   entity["host"] = os.hostname();
   entity["domain"] = strapi.config.get("server.host", null);
   entity["port"] = strapi.config.get("server.port", null);
-  // send an email by using the email plugin
-  try {
-    let sent = await strapi.plugins["email"].services.email.send({
-      to: "adenleabbey@hotmail.com",
-      from: "admin@strapi.io",
-      subject: "NOTIFICATION FROM POSTAPI",
-      text: `
-        Project is up and running.
-        Comment: Here are the details
-        Platform: ${entity.platform}
-        Type: ${entity.type}
-        Time Started: ${entity.time}
-        Host: ${entity.host}
-        Domain: ${entity.domain}
-        Port: ${entity.port}
-      `,
-    });
-    if (sent) {
-      console.log(sent);
-    }
-  } catch (error) {
-    console.error("Email not properly configured");
-    console.error(error);
+
+  let message = {
+    to: "adenleabbey@hotmail.com",
+    from: "adenleabbey@hotmail.com",
+    subject: "NOTIFICATION FROM POSTAPI",
+    text: `
+      Project is up and running.
+      Comment: Here are the details
+      Platform: ${entity.platform}
+      Type: ${entity.type}
+      Time Started: ${entity.time}
+      Host: ${entity.host}
+      Domain: ${entity.domain}
+      Port: ${entity.port}
+    `,
   }
+  //Invokes the method to send emails given the above data with the helper library
+  mailgun.messages().send(message, function (err, body) {
+    //If there is an error, render the error page
+    if (err) {
+      res.render("error", { error: err });
+      console.log("got an error: ", err);
+    }
+    else {
+      console.log("ok");
+    }
+  });
 };
 
 module.exports = sendSetup;
