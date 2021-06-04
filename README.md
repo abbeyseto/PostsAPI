@@ -57,7 +57,7 @@ You will see this error below if you are using a sandbox mailgun environment.
 
 > **Sandbox domains are for test purposes only. Please add your own domain or add the address to authorized recipients in Account settings.**
 
-To avoid this error, please use a verified domain mailgun environment. 
+To avoid this error, please use a verified domain mailgun environment or **don't set these parameter, the default email configurations in this repository will be used**. 
 
 This ensures that emails are delivered for confirmation of email adresses and for the test cases to pass.
  
