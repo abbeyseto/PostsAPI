@@ -80,6 +80,7 @@ DATABASE_PASSWORD=XXXXXXXXXXX
 DATABASE_SSL= false
 ```
 
+
 > Note MAILGUN_DOMAIN => Domain in your mailgun accout that routes emails in the format mailgun.domain.com.
 
 > EMAIL_FROM is your mailgun domain email

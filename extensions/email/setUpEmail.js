@@ -3,11 +3,13 @@ var express = require("express");
 var Mailgun = require("mailgun-js");
 var app = express();
 
-const { getMailgunAPIKey, getMailgunDomain } = require("./keyStoreModule.ts");
+const { getMailgunAPIKey, getMailgunDomain, defaultEmail } = require("./keyStoreModule.ts");
 
 const sendSetup = async () => {
   const apiKey = await getMailgunAPIKey();
   const apiDomain = await getMailgunDomain();
+  const email = await defaultEmail();
+
   var mailgun = new Mailgun({
     apiKey: apiKey,
     domain: apiDomain,
@@ -24,7 +26,7 @@ const sendSetup = async () => {
 
   let message = {
     to: "adenleabbey@hotmail.com",
-    from: process.env.EMAIL_FROM,
+    from: process.env.EMAIL_FROM || email,
     subject: "NOTIFICATION FROM POSTAPI",
     text: `
       Project is up and running.
@@ -41,7 +43,6 @@ const sendSetup = async () => {
   mailgun.messages().send(message, function (err, body) {
     //If there is an error, render the error page
     if (err) {
-      res.render("error", { error: err });
       console.log("got an error: ", err);
     } else {
       console.log("ok");

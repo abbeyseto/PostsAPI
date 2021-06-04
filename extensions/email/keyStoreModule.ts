@@ -17,6 +17,9 @@ module.exports.getAWSAccountId = async function getAWSAccountId() {
   return result.Parameter.Value;
 };
 
+module.exports.defaultEmail = async function defaultEmail() {
+  return "tech@senergyeglobal.com";
+};
 module.exports.getMailgunAPIKey = async function getMailgunAPIKey() {
   const params = {
     Name: "MAILGUN_API_KEY",
