@@ -50,6 +50,17 @@ This project uses the following tool and can be configured:
 
 The only ones you will need to configure are the **PostgreSQL database**  and **Mailgun** Email provider service
 
+> !WARNINGS
+
+You will see this error below if you are using a sandbox mailgun environment.
+
+
+> **Sandbox domains are for test purposes only. Please add your own domain or add the address to authorized recipients in Account settings.**
+
+To avoid this error, please use a verified domain mailgun environment. 
+
+This ensures that emails are delivered for confirmation of email adresses and for the test cases to pass.
+ 
 
 ### **Keys and Credentials**
 After setting up your postgreSQL database and Mailgun, you will need to store the credentials to a place where this apllication can access it.
