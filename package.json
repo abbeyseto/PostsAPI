@@ -5,8 +5,8 @@
   "description": "A RESTful API that supports the posts functionality of Facebook ",
   "scripts": {
     "develop": "strapi develop --no-build",
-    "start": "strapi start --no-build",
-    "build": "strapi build --no-build",
+    "start": "strapi start",
+    "build": "strapi build",
     "strapi": "strapi",
     "tests": "jest --forceExit --detectOpenHandles"
   },
