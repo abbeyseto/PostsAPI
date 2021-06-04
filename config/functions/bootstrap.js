@@ -7,7 +7,7 @@
  * This gives you an opportunity to set up your data model,
  * run jobs, or perform some special logic.
  */
-const setup = require("../../extensions/email/setUpEmail");
+// const setup = require("../../extensions/email/setUpEmail");
 const setUsersRolePermission = require("./permissionSettings");
 
 module.exports = () => {
